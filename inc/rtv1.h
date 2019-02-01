@@ -49,6 +49,7 @@ typedef double		t_vector __attribute__((vector_size(sizeof(double)*3)));
 typedef struct		s_obj
 {
 	int				type;
+	int				id;
 	t_vector		pos;
 	t_vector		rot;
 	unsigned int	size;
@@ -90,6 +91,8 @@ typedef struct		s_scene
 
 typedef struct 		s_sdl //FREE IN CASE OF ERROR / ON EXIT
 {
+	int				scr_wid;
+	int				scr_hei;
 	SDL_Window		*window;
 	SDL_Texture		*screen;
 	SDL_Renderer	*renderer;
@@ -220,6 +223,7 @@ t_matrix			*z_rotate(t_matrix *m_zrot, double angle);
 t_vector			cross_prod(t_vector u, t_vector v);
 void				translate(Uint32 key, t_vector *pos, int cam);
 void				reset(t_env *e);
+void				delete_obj(t_obj **obj_lst, int id);
 /*
 ** SDL
 */
@@ -227,4 +231,5 @@ int					sdl_init(t_sdl *sdl);
 void				sdl_close(t_sdl *sdl);
 int					event_handler(t_env *env);
 int 				sdl_error(char *message);
+int					get_format_data(t_sdl *sdl);
 #endif

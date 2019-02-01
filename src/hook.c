@@ -71,6 +71,8 @@ void	on_key_down(SDL_Keycode sum, Uint16 mod, t_env *e)
 		e->selected ? scale(sum, &(e->selected->tr_siz), 0) : \
 	scale(sum, &(e->scene->fov), 1);
 	}
+	if (sum == SDLK_DELETE && e->selected)
+		delete_obj(&(e->obj), e->selected->id);
 	if (sum == SDLK_r)
 	{
 		reset(e);
@@ -120,8 +122,8 @@ void	on_mouse_move(int x, int y, int rel_x, int rel_y, t_env *e, int left, int r
 
 void	on_lbutton_down(int x, int y, t_env *e)
 {
-	if (e->pix_obj[y * SCR_WID + x])
-		e->selected = (e->pix_obj)[y * SCR_WID + x];
+	if (e->pix_obj[y * e->sdl->scr_wid + x])
+		e->selected = (e->pix_obj)[y * e->sdl->scr_wid + x];
 	else
 		e->selected = NULL;
 	// printf("left but_down %d,%d\n", x, y);
@@ -138,6 +140,34 @@ void	on_lbutton_up(int x, int y, t_env *e)
 	// printf("left but_up %d,%d\n", x, y);
 }
 
+void	on_resize(Sint32 w, Sint32 h, t_env *e)
+{
+	printf("data1 %d, %d\n", w, h);
+	e->sdl->scr_wid = w;
+	e->sdl->scr_hei = h;
+	// if (sdl_init(e->sdl) < 0)
+	// {
+	// 	struct_del(e->scene);
+	// 	exit(-1);
+	// }
+	get_format_data(e->sdl);
+	SDL_DestroyTexture(e->sdl->screen);
+	//Init texture
+	e->sdl->screen = SDL_CreateTexture(e->sdl->renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STATIC, e->sdl->scr_wid, e->sdl->scr_hei);
+	if(e->sdl->screen == NULL)
+	{
+		sdl_close(e->sdl);
+		sdl_error("Surface could not be created! ");
+		// return (sdl_error("Surface could not be created! "));
+	}
+	ft_memdel((void **)&(e->sdl->pixels));
+	if (!(e->sdl->pixels = (Uint32 *)malloc(sizeof(Uint32) * e->sdl->scr_hei * e->sdl->scr_wid)))
+		sdl_close(e->sdl);
+	ft_memset(e->sdl->pixels, 0, e->sdl->scr_hei * e->sdl->scr_wid * sizeof(Uint32));
+	ft_memdel((void **)&(e->pix_obj));
+	e->pix_obj = (t_obj **)malloc(sizeof(t_obj) * e->sdl->scr_wid * e->sdl->scr_hei);
+	ft_memset(e->pix_obj, 0, e->sdl->scr_hei * e->sdl->scr_wid * sizeof(Uint32));
+}
 // int		mouse_hook(int button, int x, int y, void *mlx)
 // {
 // 	t_mlx *ptr;

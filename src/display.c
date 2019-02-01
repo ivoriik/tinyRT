@@ -36,13 +36,13 @@ unsigned int	get_rgb(t_sdl *sdl, unsigned int red, unsigned int green, unsigned 
 	return ((unsigned int)col);
 }
 
-void			img_pixel_put(t_env *env, int x, int y, unsigned int color)
+void			img_pixel_put(t_env *e, int x, int y, unsigned int color)
 {
 	Uint32 *data;
 
-	if (!(x >= 0 && x < SCR_WID && y >= 0 && y < SCR_HEI))
+	if (!(x >= 0 && x < e->sdl->scr_wid && y >= 0 && y < e->sdl->scr_hei))
 		return ;
-	data = env->sdl->pixels;
-	data += y * (env->sdl->pitch) + x;
+	data = e->sdl->pixels;
+	data += y * (e->sdl->pitch) + x;
 	ft_memcpy(data, &color, sizeof(color));
 }

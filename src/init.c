@@ -43,7 +43,8 @@ t_light	*init_slight(t_light **light, unsigned int *nb_li)
 
 t_obj	*init_sobj(t_obj **obj, unsigned int *nb_ob)
 {
-	t_obj *ptr;
+	t_obj		*ptr;
+	static int	id;
 
 	(*nb_ob)++;
 	if (!(*obj))
@@ -54,6 +55,7 @@ t_obj	*init_sobj(t_obj **obj, unsigned int *nb_ob)
 			return (NULL);
 		}
 		ft_bzero((void *)(*obj), sizeof(t_obj));
+		(*obj)->id = id++;
 		(*obj)->next = NULL;
 		return (*obj);
 	}
@@ -66,6 +68,7 @@ t_obj	*init_sobj(t_obj **obj, unsigned int *nb_ob)
 		return (NULL);
 	}
 	ft_bzero((void *)(ptr->next), sizeof(t_obj));
+	ptr->next->id = id++;
 	ptr->next->next = NULL;
 	return (ptr->next);
 }

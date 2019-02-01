@@ -27,7 +27,7 @@ int		init_env(t_env *env, t_scene *scene, t_obj **obj_pix, t_sdl *sdl)
 	env->scene = scene;
 	env->light = scene->light;
 	env->obj = scene->obj;
-	env->asp_rat = (double)SCR_WID / (double)SCR_HEI;
+	env->asp_rat = (double)sdl->scr_wid / (double)sdl->scr_hei;
 	env->pix_obj = obj_pix;
 	env->sdl = sdl;
 	configuration();
@@ -38,7 +38,7 @@ void	rt_loop(t_env *env, t_sdl *sdl)
 {
 	sdl->event_loop = 1;
 	render(env, env->scene);
-	SDL_UpdateTexture(sdl->screen, NULL, sdl->pixels, SCR_WID * sizeof(Uint32));
+	SDL_UpdateTexture(sdl->screen, NULL, sdl->pixels, sdl->scr_wid * sizeof(Uint32));
 	SDL_RenderClear(sdl->renderer);
 	SDL_RenderCopy(sdl->renderer, sdl->screen, NULL, NULL);
 	SDL_RenderPresent(sdl->renderer);
@@ -50,7 +50,7 @@ void	rt_loop(t_env *env, t_sdl *sdl)
 			// if (SDL_UpdateWindowSurface(sdl->window))
 			// 	sdl_error("Window could not be updated! ");
 			render(env, env->scene);
-			SDL_UpdateTexture(sdl->screen, NULL, sdl->pixels, SCR_WID * sizeof(Uint32));
+			SDL_UpdateTexture(sdl->screen, NULL, sdl->pixels, sdl->scr_wid * sizeof(Uint32));
 			SDL_RenderClear(sdl->renderer);
 			SDL_RenderCopy(sdl->renderer, sdl->screen, NULL, NULL);
 			SDL_RenderPresent(sdl->renderer);
@@ -64,8 +64,6 @@ int		main(int argc, char **argv)
 	t_scene	scene;
 	t_env	env;
 	t_sdl	sdl;
-	t_obj	*obj_pix[SCR_HEI * SCR_WID];
-
 
 	if (argc != 2)
 		ft_usage("RT scene\n");
@@ -76,11 +74,15 @@ int		main(int argc, char **argv)
 	if (!(parser(fd, &scene)))
 		ft_error("Scene is incomplete or incorrect\n");
 	close(fd);
+	sdl.scr_wid = SCR_WID;
+	sdl.scr_hei = SCR_HEI;
 	if (sdl_init(&sdl) < 0)
 	{
 		struct_del(&scene);
 		exit(-1);
 	}
+	t_obj	**obj_pix;
+	obj_pix = (t_obj **)malloc(sizeof(t_obj) * sdl.scr_wid * sdl.scr_hei);
 	if (init_env(&env, &scene, &obj_pix[0], &sdl))
 	{
 		struct_del(&scene);

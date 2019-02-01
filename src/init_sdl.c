@@ -34,7 +34,7 @@ int	get_format_data(t_sdl *sdl)
 		bmask = 0x00ff0000;
 		amask = 0xff000000;
 	}
-	surface = SDL_CreateRGBSurface(0, SCR_WID, SCR_HEI, 32, rmask, gmask, bmask, amask);
+	surface = SDL_CreateRGBSurface(0, sdl->scr_wid, sdl->scr_hei, 32, rmask, gmask, bmask, amask);
 	if (!(surface))
 		return(sdl_error("SDL could not createRGBSurface! "));
 	sdl->pitch = surface->pitch / sizeof(unsigned int);
@@ -46,9 +46,12 @@ int	get_format_data(t_sdl *sdl)
 
 int		sdl_init(t_sdl *sdl)
 {
-	SDL_RendererInfo info;
+	SDL_RendererInfo	info;
+	Uint32				flags;
 
+	printf("sdl %p\n", sdl);
 	//The window we'll be rendering to
+	flags = SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE;
 	sdl->window = NULL;   
 	//The surface contained by the window
 	get_format_data(sdl);
@@ -56,7 +59,7 @@ int		sdl_init(t_sdl *sdl)
 	if (SDL_Init( SDL_INIT_VIDEO | SDL_INIT_EVENTS) < 0)
 		return (sdl_error("SDL could not initialize! "));
 	//Create window
-	sdl->window = SDL_CreateWindow( "RayTracer", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCR_WID, SCR_HEI, SDL_WINDOW_SHOWN);
+	sdl->window = SDL_CreateWindow( "RayTracer", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, sdl->scr_wid, sdl->scr_hei, flags);
 	if(sdl->window == NULL)
 	{
 		SDL_Quit();
@@ -75,18 +78,18 @@ int		sdl_init(t_sdl *sdl)
 
 	}
 	//Init texture
-	sdl->screen = SDL_CreateTexture(sdl->renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STATIC, SCR_WID, SCR_HEI);
+	sdl->screen = SDL_CreateTexture(sdl->renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STATIC, sdl->scr_wid, sdl->scr_hei);
 	if(sdl->screen == NULL)
 	{
 		sdl_close(sdl);
 		return (sdl_error("Surface could not be created! "));
 	}
-	if (!(sdl->pixels = (Uint32 *)malloc(sizeof(Uint32) * SCR_HEI * SCR_WID)))
+	if (!(sdl->pixels = (Uint32 *)malloc(sizeof(Uint32) * sdl->scr_hei * sdl->scr_wid)))
 	{
 		sdl_close(sdl);
 		return (ft_perror(NULL));
 	}
-	ft_memset(sdl->pixels, 100, SCR_HEI * SCR_WID * sizeof(Uint32));
+	ft_memset(sdl->pixels, 100, sdl->scr_hei * sdl->scr_wid * sizeof(Uint32));
 	printf("win_init: OK\n");
 	return (0);
 }

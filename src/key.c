@@ -100,7 +100,7 @@ void	reset(t_env *e)
 	t_scene	*scene;
 
 	scene = e->scene;
-	scene->cam_transl = (t_vector){0.0f, 0.0f, 0.0f};
+	scene->cam_transl = scene->cam_pos;
 	scene->cam_angles = (t_vector){0.0f, 0.0f, 0.0f};
 	scene->fov = FOV;
 	e->selected = NULL;
@@ -112,4 +112,31 @@ void	reset(t_env *e)
 		objs->tr_siz = objs->size;
 		objs = objs->next;
 	}
+}
+
+void	delete_obj(t_obj **obj_lst, int id)
+{
+	t_obj *temp;
+	t_obj *prev;
+
+	if (!obj_lst || !(*obj_lst))
+		return ;
+	if ((temp = *obj_lst) && temp->id == id)
+	{
+		*obj_lst = temp->next;
+		ft_memdel((void **)&temp);
+		return ;
+	}
+	while (temp)
+	{
+		prev = temp;
+		temp = temp->next;
+		if (temp->id == id)
+		{
+			prev->next = temp->next;
+			ft_memdel((void **)&temp);
+			return ;
+		}
+	}
+
 }
