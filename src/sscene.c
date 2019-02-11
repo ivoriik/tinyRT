@@ -55,6 +55,7 @@ int		set_obj1(t_scene *scene, char **prop, int type)
 {
 	t_obj	*obj;
 	int		(*intersect[4])();
+	int		refract;
 
 	intersect[0] = p_intersect;
 	intersect[1] = s_intersect;
@@ -64,16 +65,27 @@ int		set_obj1(t_scene *scene, char **prop, int type)
 	if (!type && !((get_vec(ft_ptrtostr(prop[0], POSI), &(obj->pos))) \
 		&& (get_vec(ft_ptrtostr(prop[1], ROTI), &(obj->rot))) \
 		&& (get_col(ft_ptrtostr(prop[2], COLO), &(obj->col))) \
-		&& (get_val(ft_ptrtostr(prop[3], REFL), &(obj->reflect)))))
+		&& (get_val(ft_ptrtostr(prop[3], REFL), &(obj->reflect))) \
+		&& (get_val(ft_ptrtostr(prop[4], REFR), &refract))))
 		return (0);
 	if (type && !((get_vec(ft_ptrtostr(prop[0], POSI), &(obj->pos))) \
 		&& (get_val(ft_ptrtostr(prop[1], SIZE), &(obj->size))) \
 		&& (get_col(ft_ptrtostr(prop[2], COLO), &(obj->col))) \
-		&& (get_val(ft_ptrtostr(prop[3], REFL), &(obj->reflect)))))
+		&& (get_val(ft_ptrtostr(prop[3], REFL), &(obj->reflect))) \
+		&& (get_val(ft_ptrtostr(prop[4], REFR), &(refract)))))
 		return (0);
 	obj->tr_pos = obj->pos;
 	obj->tr_rot = *(normilize_vec(&obj->rot));
 	obj->tr_siz = obj->size;
+	if (obj->reflect > 0)
+		obj->reflect = 1;
+	else
+		obj->reflect = 0;
+	obj->refract = refract ? (L_X(L_N(refract / 100.0f, 1.0f), MAX_REFR)) : 0.0f;
+	if (obj->refract)
+	{
+		printf("REFRACTIVE %d n %f\n", obj->type, obj->refract);
+	}
 	obj->intersect = intersect[type];
 	return (1);
 }
@@ -82,6 +94,7 @@ int		set_obj2(t_scene *scene, char **prop, int type)
 {
 	t_obj	*obj;
 	int		(*intersect[4])();
+	int		refract;
 
 	intersect[2] = cy_intersect;
 	intersect[3] = co_intersect;
@@ -92,11 +105,21 @@ int		set_obj2(t_scene *scene, char **prop, int type)
 		&& (get_vec(ft_ptrtostr(prop[1], ROTI), &(obj->rot))) \
 		&& (get_val(ft_ptrtostr(prop[2], SIZE), &(obj->size))) \
 		&& (get_col(ft_ptrtostr(prop[3], COLO), &(obj->col))) \
-		&& (get_val(ft_ptrtostr(prop[4], REFL), &(obj->reflect)))))
+		&& (get_val(ft_ptrtostr(prop[4], REFL), &(obj->reflect))) \
+		&& (get_val(ft_ptrtostr(prop[5], REFR), &(refract)))))
 		return (0);
 	obj->tr_pos = obj->pos;
 	obj->tr_rot = *(normilize_vec(&obj->rot));
 	obj->tr_siz = obj->size;
+	if (obj->reflect > 0)
+		obj->reflect = 1;
+	else
+		obj->reflect = 0;
+	obj->refract = refract ? (L_X(L_N(refract / 100.0f, 1.0f), MAX_REFR)) : 0.0f;
+	if (obj->refract)
+	{
+		printf("REFRACTIVE %d n %f\n", obj->type, (double)obj->refract);
+	}
 	obj->intersect = intersect[type];
 	return (1);
 }

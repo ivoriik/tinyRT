@@ -18,6 +18,7 @@ void	*thread_funct(void *ptr)
 	int				i;
 	int				j;
 	unsigned int	color;
+	t_vector		rgb;
 	t_ray			ray;
 
 	th = (t_thread *)ptr;
@@ -25,23 +26,19 @@ void	*thread_funct(void *ptr)
 	while (++j < th->e_pix)
 	{
 		i = -1;
-		while (++i < th->env->sdl->scr_wid)
+		while (++i < SCR_WID)
 		{
 			ray.dir = ray_generate(th->env, i, j);
 			ray.ori = th->env->scene->r_ori;
-			if (cast_ray(&ray, th->env, j * th->env->sdl->scr_wid + i))
-			{
-				color = get_rgb(th->env->sdl, ray.hit_c[0], ray.hit_c[1], ray.hit_c[2]);
-				img_pixel_put(th->env, i, j, color);
-			}
-			else
-				img_pixel_put(th->env, i, j, get_rgb(th->env->sdl, 0, 0, 0));
+			rgb = cast_ray(&ray, th->env, j * SCR_WID + i, 0);
+			color = get_rgb(th->env->sdl, rgb[0], rgb[1], rgb[2]);
+			img_pixel_put(th->env, i, j, color);
 		}
 	}
 	return (NULL);
 }
 
-int		mult_threads(t_env *e)
+int		mult_threads(t_env *env)
 {
 	int			count;
 	pthread_t	threads_id[NB_THREADS];
@@ -49,12 +46,12 @@ int		mult_threads(t_env *e)
 
 	count = -1;
 	while (++count < NB_THREADS)
-		th[count].env = e;
+		th[count].env = env;
 	count = -1;
 	while (++count < NB_THREADS)
 	{
-		th[count].s_pix = count * e->sdl->scr_hei / NB_THREADS;
-		th[count].e_pix = th[count].s_pix + e->sdl->scr_hei / NB_THREADS + 1;
+		th[count].s_pix = count * SCR_HEI / NB_THREADS;
+		th[count].e_pix = th[count].s_pix + SCR_HEI / NB_THREADS;
 		if (pthread_create((&(threads_id[count])), NULL, \
 			thread_funct, &th[count]))
 			ft_error("error creating thread\n");

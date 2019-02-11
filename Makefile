@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME	=	RTv1
+NAME	=	rt
 
 CC		=	gcc
 
@@ -33,7 +33,8 @@ SRC =	main.c\
 		init_sdl.c\
 		events.c\
 		hook.c\
-		key.c
+		key.c\
+		features.c
 
 # directories
 SRC_DIR	=	./src/
@@ -45,12 +46,6 @@ OBJ_DIR	=	./obj/
 # OBJS	=	$(SRCS:.c=.o)
 OBJS	=	$(addprefix $(OBJ_DIR),$(SRC:.c=.o))
 
-#SDL2 library
-SDL		=	./SDL2/
-SDL_INC =	-I frameworks/SDL2.framework/Headers/
-SDL_LNK	=	-F ./frameworks -rpath ./frameworks -framework SDL2 
-SDL_IMG_INC =	-I frameworks/SDL2_image.framework/Headers/
-SDL_IMG_LNK =	-F ./frameworks -rpath ./frameworks -framework SDL2_image 
 
 #FT library
 LIB_D	=	./libft/
@@ -74,7 +69,7 @@ $(FT_LIB):
 	make -C $(LIB_D)
 
 $(NAME) : $(OBJS)
-	$(CC) $(OBJS) $(MLX_LNK) $(SDL_LNK) $(SDL_IMG_LNK) $(LIB_L) -lm -o $(NAME)
+	$(CC) $(OBJS) -lSDL2 -pthread $(LIB_L) -lm -o $(NAME)
 
 clean:
 	rm -rf $(OBJ_DIR)

@@ -21,25 +21,29 @@ plane {
 	pos(0,0,-100)
 	rot(0,0,-10)
 	col(160,160,160)
-	reflect(10)
+	reflect(0)
+	refract(0)
 }
 plane {
 	pos(0,-50,0)
 	rot(0,-1,)
 	col(160,160,160)
 	reflect(10)
+	refract(0)
 }
 sphere {
 	pos(50,-10,0)
 	size(40)
 	col(20,180,160)
-	reflect(60)
+	reflect(0)
+	refract(130)
 }
 sphere {
 	pos(-30,-30,80)
 	size(20)
 	col(180,180,160)
-	reflect(60)
+	reflect(0)
+	refract(0)
 }
 cylinder {
 	pos(-100,0,70)
@@ -47,4 +51,5 @@ cylinder {
 	size(20)
 	col(100,100,100)
 	reflect(10)
+	refract(0)
 }

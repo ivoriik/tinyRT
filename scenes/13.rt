@@ -18,6 +18,7 @@ cylinder {
 	size(10)
 	col(200,170,200)
 	reflect(0)
+	refract(0)
 }
 
 plane {
@@ -25,47 +26,55 @@ plane {
 	rot(0,-1,0)
 	col(180,185,190)
 	reflect(0)	
+	refract(0)
 }
 plane {
 	pos(0,0,-100)
 	rot(0,0,-1)
 	col(190,195,200)
 	reflect(0)	
+	refract(0)
 }
 sphere {
 	pos(-10,10,-80)
 	size(15)
 	col(200,170,200)
-	reflect(600)
+	reflect(00)
+	refract(0)
 }
 sphere {
 	pos(10,-20,-80)
 	size(15)
 	col(200,170,200)
-	reflect(600)
+	reflect(00)
+	refract(0)
 }
 sphere {
 	pos(5,40,-70)
 	size(11)
 	col(200,170,200)
-	reflect(600)
+	reflect(00)
+	refract(0)
 }
 sphere {
 	pos(-5,70,-75)
 	size(10)
 	col(200,170,200)
-	reflect(600)
+	reflect(00)
+	refract(0)
 }
 sphere {
 	pos(10,105,-80)
 	size(13)
 	col(200,170,200)
-	reflect(600)
+	reflect(00)
+	refract(0)
 }
 cylinder {
 	pos(-50,40,-60)
 	rot(0,-1,0)
 	size(9)
 	col(140,166,160)
-	reflect(5)
+	reflect(0)
+	refract(150)
 }

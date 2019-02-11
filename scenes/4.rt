@@ -17,4 +17,5 @@ sphere {
 	size(50)
 	col(255,255,255)
 	reflect(60)
+	refract(0)
 }

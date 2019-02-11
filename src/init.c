@@ -43,8 +43,7 @@ t_light	*init_slight(t_light **light, unsigned int *nb_li)
 
 t_obj	*init_sobj(t_obj **obj, unsigned int *nb_ob)
 {
-	t_obj		*ptr;
-	static int	id;
+	t_obj *ptr;
 
 	(*nb_ob)++;
 	if (!(*obj))
@@ -55,7 +54,6 @@ t_obj	*init_sobj(t_obj **obj, unsigned int *nb_ob)
 			return (NULL);
 		}
 		ft_bzero((void *)(*obj), sizeof(t_obj));
-		(*obj)->id = id++;
 		(*obj)->next = NULL;
 		return (*obj);
 	}
@@ -68,7 +66,6 @@ t_obj	*init_sobj(t_obj **obj, unsigned int *nb_ob)
 		return (NULL);
 	}
 	ft_bzero((void *)(ptr->next), sizeof(t_obj));
-	ptr->next->id = id++;
 	ptr->next->next = NULL;
 	return (ptr->next);
 }
@@ -90,10 +87,10 @@ int		to_struct(t_scene *scene, char *s, int type)
 		if (nb != 3 || !set_cam(scene, prop))
 			return (clear_mem(&prop, nb));
 	if (!type || type == 1)
-		if (nb != 5 || !set_obj1(scene, prop, type))
+		if (nb != 6 || !set_obj1(scene, prop, type))
 			return (clear_mem(&prop, nb));
 	if (type == 2 || type == 3)
-		if (nb != 6 || !set_obj2(scene, prop, type))
+		if (nb != 7 || !set_obj2(scene, prop, type))
 			return (clear_mem(&prop, nb));
 	clear_mem(&prop, nb);
 	return (1);

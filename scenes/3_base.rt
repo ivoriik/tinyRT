@@ -28,10 +28,4 @@ sphere {
 	reflect(0)
 	refract(0)
 }
-sphere {
-	pos(0,40,-200)
-	size(30)
-	col(255,255,255)
-	reflect(0)
-	refract(0)
-}
+

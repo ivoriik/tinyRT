@@ -18,6 +18,7 @@ sphere {
 	size(40)
 	col(75,75,75)
 	reflect(600)
+	refract(0)
 }
 
 plane {
@@ -25,6 +26,7 @@ plane {
 	rot(0,0,-1)
 	col(150,150,150)
 	reflect(0)	
+	refract(0)
 }
 
 plane {
@@ -32,6 +34,7 @@ plane {
 	rot(0,1,0)
 	col(150,150,150)
 	reflect(0)	
+	refract(0)
 }
 
 plane {
@@ -39,12 +42,14 @@ plane {
 	rot(-1,0,-2)
 	col(55,55,55)
 	reflect(0)	
+	refract(0)
 }
 plane {
 	pos(0,-50,0)
 	rot(0,-1,0)
 	col(150,150,150)
-	reflect(0)	
+	reflect(10)	
+	refract(0)
 }
 cone {
 	pos(30,100,-45)
@@ -52,4 +57,5 @@ cone {
 	size(20)
 	col(150,150,150)
 	reflect(0)
+	refract(130)
 }

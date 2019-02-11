@@ -19,4 +19,5 @@ plane {
 	rot(-1,0,0)
 	col(142,155,250)
 	reflect(0)	
+	refract(0)
 }

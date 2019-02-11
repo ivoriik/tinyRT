@@ -23,8 +23,6 @@ int		event_handler(t_env *e)
 			e->sdl->event_loop = 0; //on_quit(): destroy_all_data, exit;
 		else if (event.type == SDL_KEYDOWN)
 			on_key_down(event.key.keysym.sym, event.key.keysym.mod, e);
-		else if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_RESIZED)
-			on_resize(event.window.data1, event.window.data2, e);
 		// else if (event.type == SDL_KEYUP)
 		// 	on_key_up(event.key.keysym.sym, event.key.keysym.mod, e);
 		// else if (event.type == SDL_MOUSEMOTION)

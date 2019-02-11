@@ -23,7 +23,7 @@ void	on_mouse_move(int x, int y, int rel_x, int rel_y, t_env *e, int left, int r
 void	on_lbutton_down(int x, int y, t_env *e );
 void	on_rbutton_down(int x, int y, t_env *e );
 void	on_lbutton_up(int x, int y, t_env *e );
-void	on_resize(Sint32 w, Sint32 h, t_env *e);
+// void	on_resize(int w, int h, t_sdl *sdl);
 // void	on_exit(void);
 
 #endif

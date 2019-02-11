@@ -14,10 +14,12 @@ cone {
 	size(30)
 	col(128,250,200)
 	reflect(50)
+	refract(0)
 }
 sphere {
 	pos(40,0,-50)
 	size(10)
 	col(128,250,200)
-	reflect(50)
+	reflect(0)
+	refract(0)
 }

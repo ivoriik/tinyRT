@@ -21,8 +21,8 @@ int		is_tag(char *s)
 
 	objs = (char *[7]){"camera {", "light {", "plane {", "sphere {", \
 	"cylinder {", "cone {", NULL};
-	prop = (char *[9]){"\tpos(", "\tdir(", "\tcol(", "\trad(", "\trot(", \
-	"\tsize(", "\tdiffuse(", "\treflect(", NULL};
+	prop = (char *[10]){"\tpos(", "\tdir(", "\tcol(", "\trad(", "\trot(", \
+	"\tsize(", "\tdiffuse(", "\treflect(", "\trefract(", NULL};
 	i = -1;
 	if (!propetry)
 		while (objs[++i])

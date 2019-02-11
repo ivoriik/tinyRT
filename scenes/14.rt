@@ -19,4 +19,5 @@ cylinder {
 	size(10)
 	col(160,16,160)
 	reflect(60)
+	refract(0)
 }

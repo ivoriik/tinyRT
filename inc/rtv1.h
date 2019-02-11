@@ -13,8 +13,8 @@
 #ifndef RTV1_H
 # define RTV1_H
 # define INFINITY 18446744073709551615
-# define SCR_WID 1000
-# define SCR_HEI 800
+# define SCR_WID 600
+# define SCR_HEI 480
 # define SQ_MATR 4
 # define POSI "pos("
 # define COLO "col("
@@ -22,6 +22,7 @@
 # define SIZE "size("
 # define DIFU "diffuse("
 # define REFL "reflect("
+# define REFR "refract("
 # define DIRE "dir("
 # define ROTI "rot("
 # define FOV 1.570796
@@ -34,32 +35,39 @@
 # define DEG_TO_RAD(x) ((x) * M_PI / 180.0f)
 # define RAD_TO_DEG(x) ((x) * 180.0f / M_PI)
 
+# define R_DEPTH	10
+# define BG_R		165
+# define BG_G		155
+# define BG_B		205
+
+# define MAX_REFR	4.05
 # include <stdio.h>
 # include <pthread.h>
 # include <math.h>
 # include "libft.h"
 // # include "mlx.h"
-# include "SDL.h"
-# include "SDL_image.h"
-# include "SDL_syswm.h"
+# include <SDL2/SDL.h>
+# include <SDL2/SDL_image.h>
+// # include <SDL2/syswm.h>
 
 typedef	double		t_matrix[4][4];
-typedef double		t_vector __attribute__((vector_size(sizeof(double)*3)));
+typedef double		t_vector __attribute__((vector_size(sizeof(double)*4)));
 
 typedef struct		s_obj
 {
 	int				type;
-	int				id;
 	t_vector		pos;
 	t_vector		rot;
 	unsigned int	size;
 	unsigned int	reflect;
+	double			refract;
 	t_vector		col;
 	t_vector		tr_pos;
 	t_vector		tr_rot;
 	double			tr_siz;
 	double			tg2;
 	int				(*intersect)();
+	unsigned int	in;
 	struct s_obj	*next;
 	t_vector		x;
 }					t_obj;
@@ -91,8 +99,6 @@ typedef struct		s_scene
 
 typedef struct 		s_sdl //FREE IN CASE OF ERROR / ON EXIT
 {
-	int				scr_wid;
-	int				scr_hei;
 	SDL_Window		*window;
 	SDL_Texture		*screen;
 	SDL_Renderer	*renderer;
@@ -128,6 +134,7 @@ typedef	struct		s_ray
 {
 	t_vector		ori;
 	t_vector		dir;
+	t_obj			*obj;
 	double			t;
 	t_vector		hit_p;
 	t_vector		hit_n;
@@ -165,7 +172,7 @@ void				sobj_del(t_obj **lst);
 ** RT RENDER
 */
 void				render(t_env *env, t_scene *scene);
-int					cast_ray(t_ray *ray, t_env *env, unsigned int pix);
+t_vector			cast_ray(t_ray *ray, t_env *env, int pix, unsigned int depth);
 t_vector			ray_generate(const t_env *env, int i, int j);
 int					solve_qvadratic(double a, double b, double c, double *t);
 int					s_intersect(t_vector dir, t_vector	orig, \
@@ -176,6 +183,7 @@ int					cy_intersect(t_vector dir, t_vector	orig, \
 	t_obj obj, double *t);
 int					co_intersect(t_vector dir, t_vector	orig, \
 	t_obj obj, double *t);
+t_vector			get_normal(t_ray *ray, t_obj *obj);
 /*
 ** LIGHTNING
 */
@@ -223,7 +231,6 @@ t_matrix			*z_rotate(t_matrix *m_zrot, double angle);
 t_vector			cross_prod(t_vector u, t_vector v);
 void				translate(Uint32 key, t_vector *pos, int cam);
 void				reset(t_env *e);
-void				delete_obj(t_obj **obj_lst, int id);
 /*
 ** SDL
 */
@@ -231,5 +238,12 @@ int					sdl_init(t_sdl *sdl);
 void				sdl_close(t_sdl *sdl);
 int					event_handler(t_env *env);
 int 				sdl_error(char *message);
-int					get_format_data(t_sdl *sdl);
+
+/*
+** PROPETRIES
+*/
+t_vector		get_refl_dir(t_vector incident, t_vector norm);
+t_vector		get_refr_dir(t_vector incident, t_vector norm, double ind_in, double ind_out);
+double			fresnel(t_vector incident, t_vector norm, double ind_in, double ind_out);
+
 #endif
