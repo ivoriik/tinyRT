@@ -46,8 +46,16 @@
 # include <math.h>
 # include "libft.h"
 // # include "mlx.h"
-# include <SDL2/SDL.h>
-# include <SDL2/SDL_image.h>
+/*
+** MACos
+*/
+# include "SDL.h"
+# include "SDL_image.h"
+/*
+** LINUX
+*/
+// # include <SDL2/SDL.h>
+// # include <SDL2/SDL_image.h>
 // # include <SDL2/syswm.h>
 
 typedef	double		t_matrix[4][4];

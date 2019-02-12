@@ -117,6 +117,15 @@ t_vector		get_light(t_env *env, t_ray *ray, t_obj *obj, t_light *p_light)
 		li += vec_scalar_mult(get_diff(p_light, ray, l_dir), in_sh); // + vec_scalar_mult(spec, in_sh);
 		p_light = p_light->next;
 	}
-	li = (t_vector){li[0] + AMBILI, li[1] + AMBILI, li[2] + AMBILI};
+	float pattern = 1.0f;
+	if (obj->type == 1)
+	{
+		float	tex[2];
+
+		tex[0] = (1 + atan2(ray->hit_n[2], ray->hit_n[0]) / M_PI) * 0.5;
+		tex[1] = acosf(ray->hit_n[1]) / M_PI;
+		pattern = L_N((fmodf(tex[0] * 10, 1) > 0.5) ^ (fmodf(tex[1] * 10, 1) > 0.5), 0.5);
+	}
+	li = (t_vector){li[0] * pattern + AMBILI, li[1] * pattern + AMBILI, li[2] * pattern + AMBILI};
 	return (li);
 }
