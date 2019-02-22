@@ -45,6 +45,6 @@ sphere {
 	pos(0,20,-30)
 	size(15)
 	col(100,120,180)
-	reflect(10)
-	refract(0)
+	reflect()
+	refract(150)
 }

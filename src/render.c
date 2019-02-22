@@ -52,9 +52,19 @@ t_vector	cast_ray(t_ray *ray, t_env *env, int pix, unsigned int depth)
 	if (depth > R_DEPTH)
 		return (t_vector){BG_R, BG_G, BG_B};
 	ray->hit_n = get_normal(ray, ray->obj);
+	if (dot_product(ray->hit_n, ray->dir) > 0)
+		ray->hit_n = -ray->hit_n;
 	ray->hit_p = ray->ori + vec_scalar_mult(ray->dir, ray->t);
 	// printf("depth %d, dir %f,%f,%f ori %f,%f,%f hit  %f,%f,%f\n", depth, ray->dir[0], ray->dir[1], ray->dir[2], \
 		ray->ori[0], ray->ori[1], ray->ori[2], ray->hit_p[0], ray->hit_p[1], ray->hit_p[2]);
+	if (!ray->obj->reflect)
+	{
+		light = env->light;
+		li = get_light(env, ray, ray->obj, light);
+		hit_c[0] = L_X(ray->obj->col[0] * li[0], 255);
+		hit_c[1] = L_X(ray->obj->col[1] * li[1], 255);
+		hit_c[2] = L_X(ray->obj->col[2] * li[2], 255);
+	}
 	if (ray->obj->reflect)
 	{
 		rldir.dir = get_refl_dir(ray->dir, ray->hit_n);
@@ -86,15 +96,7 @@ t_vector	cast_ray(t_ray *ray, t_env *env, int pix, unsigned int depth)
 			hit_c += vec_scalar_mult(cast_ray(&rldir, env, -1, depth + 1), 0.8);
 		}
 	}
-	if (!ray->obj->reflect && !ray->obj->refract)
-	{
-		light = env->light;
-		li = get_light(env, ray, ray->obj, light);
-		hit_c[0] = L_X(ray->obj->col[0] * li[0], 255);
-		hit_c[1] = L_X(ray->obj->col[1] * li[1], 255);
-		hit_c[2] = L_X(ray->obj->col[2] * li[2], 255);
-		return (hit_c);
-	}
+
 	hit_c = (t_vector){L_X(hit_c[0], 255), L_X(hit_c[1], 255), L_X(hit_c[2], 255)};
 	return (hit_c);
 }
@@ -133,6 +135,7 @@ void		render(t_env *env, t_scene *sc)
 		}
 		ob = ob->next;
 	}
+	printf("NEW RENDER\n");
 	ft_bzero(env->pix_obj, sizeof(t_obj *) * SCR_HEI * SCR_WID);
 	transform_mat(&(sc->wto_cam), sc->cam_transl, sc->cam_angles, 1.0f);
 	ft_bzero(&(sc->r_ori), sizeof(t_vector));

@@ -53,11 +53,11 @@ FT_LIB	=	$(addprefix $(LIB_D),libft.a)
 LIB_INC	=	-I $(LIB_D)
 LIB_L	=	-L $(LIB_D) -lft
 
-#SDL_LIB
-SDL_INC =	-I frameworks/SDL2.framework/Headers/
-SDL_LNK	=	-F ./frameworks -rpath ./frameworks -framework SDL2 
-SDL_IMG_INC =	-I frameworks/SDL2_image.framework/Headers/
-SDL_IMG_LNK =	-F ./frameworks -rpath ./frameworks -framework SDL2_image 
+# SDL_LIB
+# SDL_INC =	-I frameworks/SDL2.framework/Headers/
+# SDL_LNK	=	-F ./frameworks -rpath ./frameworks -framework SDL2 
+# SDL_IMG_INC =	-I frameworks/SDL2_image.framework/Headers/
+# SDL_IMG_LNK =	-F ./frameworks -rpath ./frameworks -framework SDL2_image 
 
 #LINUX SDL
 # -lSDL2 -pthread
@@ -78,7 +78,7 @@ $(FT_LIB):
 	make -C $(LIB_D)
 
 $(NAME) : $(OBJS)
-	$(CC) $(OBJS) $(SDL_LNK) $(SDL_IMG_LNK)   $(LIB_L) -lm -o $(NAME)
+	$(CC) $(OBJS) -Wpsabi $(SDL_LNK) $(SDL_IMG_LNK) -lSDL2 -pthread  $(LIB_L)  -lm -o $(NAME)
 
 clean:
 	rm -rf $(OBJ_DIR)

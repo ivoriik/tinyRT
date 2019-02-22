@@ -1,0 +1,32 @@
+camera {
+	pos(0,0,100)
+	dir(0,0,-1)
+}
+light {
+	pos(20,50,20)
+	col(255,255,255)
+	rad(40)
+}
+light {
+	pos(-20,50,20)
+	col(255,255,255)
+	rad(50)
+}
+
+cylinder {
+	pos(0,-15,-30)
+	rot(0,1,0)
+	size(30)
+	col(200,170,200)
+	reflect(0)
+	refract(150)
+}
+
+
+sphere {
+	pos(0,0,-30)
+	size(10)
+	col(0,255,50)
+	reflect(0)
+	refract(0)
+}

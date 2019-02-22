@@ -4,16 +4,24 @@ camera {
 }
 
 light {
-	pos(0,0,-80)
+	pos(0,20,-20)
 	col(255,255,255)
 	rad(80)
 }
 
 
 plane {
-	pos(0,0,-100)
-	rot(0,0,-1)
+	pos(0,10,-50)
+	rot(0,5,-1)
 	col(242,155,150)
-	reflect(500)	
+	reflect(0)	
+	refract(0)
+}
+
+sphere {
+	pos(0,10,-50)
+	size(10)
+	col(175,75,75)
+	reflect(0)
 	refract(0)
 }

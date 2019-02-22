@@ -13,6 +13,12 @@ light {
 	rad(40)
 }
 
+light {
+	pos(-50,0,-150)
+	col(150,150,250)
+	rad(40)
+}
+
 sphere {
 	pos(50,20,-100)
 	size(50)

@@ -18,6 +18,6 @@ cylinder {
 	rot(0,1,0)
 	size(10)
 	col(160,16,160)
-	reflect(60)
+	reflect(0)
 	refract(0)
 }

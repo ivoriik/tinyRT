@@ -54,6 +54,10 @@ t_obj	*init_sobj(t_obj **obj, unsigned int *nb_ob)
 			return (NULL);
 		}
 		ft_bzero((void *)(*obj), sizeof(t_obj));
+		(*obj)->max_phi = DEG_TO_RAD(360);
+		(*obj)->min_phi = DEG_TO_RAD(0);
+		(*obj)->max_thcos = cos(M_PI);
+		(*obj)->min_thcos = cos(0);
 		(*obj)->next = NULL;
 		return (*obj);
 	}
@@ -66,6 +70,12 @@ t_obj	*init_sobj(t_obj **obj, unsigned int *nb_ob)
 		return (NULL);
 	}
 	ft_bzero((void *)(ptr->next), sizeof(t_obj));
+
+	ptr->next->max_phi = DEG_TO_RAD(360);
+	ptr->next->min_phi = 0;
+	ptr->next->max_thcos = cos(M_PI);
+	ptr->next->min_thcos = cos(0);
+
 	ptr->next->next = NULL;
 	return (ptr->next);
 }

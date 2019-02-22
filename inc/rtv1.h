@@ -29,12 +29,12 @@
 # define ALBEDO 0.18
 # define T_COEF 0.0f
 # define AMBILI 0.1f
-# define NB_THREADS 8
+# define NB_THREADS 1
 # define L_X(a, b) ({typeof(a) _a = (a);typeof(b) _b = (b);_a >= _b ? _b : _a;})
 # define L_N(a, b) ({typeof(a) _a = (a);typeof(b) _b = (b);_a <= _b ? _b : _a;})
 # define DEG_TO_RAD(x) ((x) * M_PI / 180.0f)
 # define RAD_TO_DEG(x) ((x) * 180.0f / M_PI)
-
+# define IN_RANGE(x, min, max) (x >= min && x <= max)
 # define R_DEPTH	10
 # define BG_R		165
 # define BG_G		155
@@ -49,13 +49,13 @@
 /*
 ** MACos
 */
-# include "SDL.h"
-# include "SDL_image.h"
+// # include "SDL.h"
+// # include "SDL_image.h"
 /*
 ** LINUX
 */
-// # include <SDL2/SDL.h>
-// # include <SDL2/SDL_image.h>
+# include <SDL2/SDL.h>
+# include <SDL2/SDL_image.h>
 // # include <SDL2/syswm.h>
 
 typedef	double		t_matrix[4][4];
@@ -77,7 +77,12 @@ typedef struct		s_obj
 	int				(*intersect)();
 	unsigned int	in;
 	struct s_obj	*next;
-	t_vector		x;
+
+	double			max_thcos;
+	double			min_thcos;
+	double			max_phi;
+	double			min_phi;
+
 }					t_obj;
 
 typedef struct		s_light

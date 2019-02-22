@@ -16,7 +16,7 @@ void	translate(Uint32 key, t_vector *pos, int cam)
 {
 	double	i;
 
-	i = 1.5;
+	i = 10;
 	if (key == SDLK_w)
 		(*pos)[1] += i;
 	if (key == SDLK_d)
@@ -25,7 +25,7 @@ void	translate(Uint32 key, t_vector *pos, int cam)
 		(*pos)[0] -= i;
 	if (key == SDLK_s)
 		(*pos)[1] -= i;
-	i = cam ? -1.5 : 1.5;
+	i = cam ? -10 : 10;
 	if (key == SDLK_LSHIFT)
 		(*pos)[2] += i;
 	if (key == SDLK_LCTRL)
@@ -37,7 +37,7 @@ void	rotate(Uint32 key, t_vector *dir)
 	double		k;
 	t_matrix	m;
 
-	k = DEG_TO_RAD(1);
+	k = DEG_TO_RAD(10);
 	if (key == SDLK_UP)
 		x_rotate(&m, k);
 	if (key == SDLK_DOWN)
