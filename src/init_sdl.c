@@ -46,7 +46,9 @@ int	get_format_data(t_sdl *sdl)
 
 int		sdl_init(t_sdl *sdl)
 {
-	SDL_RendererInfo info;
+	SDL_RendererInfo	info;
+	int					img_flags;
+	int 				img_init;
 
 	//The window we'll be rendering to
 	sdl->window = NULL;   
@@ -55,6 +57,14 @@ int		sdl_init(t_sdl *sdl)
 	//Initialize SDL
 	if (SDL_Init( SDL_INIT_VIDEO | SDL_INIT_EVENTS) < 0)
 		return (sdl_error("SDL could not initialize! "));
+	img_flags = IMG_INIT_JPG | IMG_INIT_PNG;
+	img_init = IMG_Init(img_flags);
+	if (img_init&img_flags != img_flags)
+	{
+		printf("IMG_Init: Failed to init required jpg and png support!\n");
+		printf("IMG_Init: %s\n", IMG_GetError());
+		return (-1);
+	}
 	//Create window
 	sdl->window = SDL_CreateWindow( "RayTracer", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCR_WID, SCR_HEI, SDL_WINDOW_SHOWN);
 	if(sdl->window == NULL)
@@ -101,6 +111,7 @@ void	sdl_close(t_sdl *sdl)
 	//Destroy window
 	SDL_DestroyWindow(sdl->window);
 	sdl->window = NULL;
+	IMG_Quit();
 	//Quit SDL subsystems
 	SDL_Quit();
 }

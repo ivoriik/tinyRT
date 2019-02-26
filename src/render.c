@@ -44,6 +44,7 @@ t_vector	cast_ray(t_ray *ray, t_env *env, int pix, unsigned int depth)
 	t_vector	hit_c = {0.0f, 0.0f, 0.0f};
 	t_ray		rldir;
 	t_ray		rrdir;
+	t_vector	col;
 
 	ray->t = INFINITY;
 	objs = env->obj;
@@ -57,13 +58,14 @@ t_vector	cast_ray(t_ray *ray, t_env *env, int pix, unsigned int depth)
 	ray->hit_p = ray->ori + vec_scalar_mult(ray->dir, ray->t);
 	// printf("depth %d, dir %f,%f,%f ori %f,%f,%f hit  %f,%f,%f\n", depth, ray->dir[0], ray->dir[1], ray->dir[2], \
 		ray->ori[0], ray->ori[1], ray->ori[2], ray->hit_p[0], ray->hit_p[1], ray->hit_p[2]);
-	if (!ray->obj->reflect)
+	if (!ray->obj->reflect && !ray->obj->refract)
 	{
 		light = env->light;
+		col = ray->obj->get_mapping(ray->obj, ray->hit_p);
 		li = get_light(env, ray, ray->obj, light);
-		hit_c[0] = L_X(ray->obj->col[0] * li[0], 255);
-		hit_c[1] = L_X(ray->obj->col[1] * li[1], 255);
-		hit_c[2] = L_X(ray->obj->col[2] * li[2], 255);
+		hit_c[0] = L_X(col[0] * li[0], 255);
+		hit_c[1] = L_X(col[1] * li[1], 255);
+		hit_c[2] = L_X(col[2] * li[2], 255);
 	}
 	if (ray->obj->reflect)
 	{

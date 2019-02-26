@@ -120,16 +120,16 @@ t_vector		get_light(t_env *env, t_ray *ray, t_obj *obj, t_light *p_light)
 		p_light = p_light->next;
 	}
 	float pattern = 1.0f;
-	if (obj->type == 1)
-	{
-		float	tex[2];
-		tex[0] = (1 + atan2(ray->hit_n[2], ray->hit_n[0]) / M_PI) * 0.5;
-		tex[1] = acosf(ray->hit_n[1]) / M_PI;
-		pattern = L_N((fmodf(tex[0] * 5, 1) > 0.5) ^ (fmodf(tex[1] * 5, 1) > 0.5), 0);
-		// pattern = 0;
-		// printf("obj type 1 pattern %f hit_n %f,%f,%f \n", pattern, ray->hit_n[0], ray->hit_n[1], ray->hit_n[2]);
+	// if (obj->type == 1)
+	// {
+	// 	float	tex[2];
+	// 	tex[0] = (1 + atan2(ray->hit_n[2], ray->hit_n[0]) / M_PI) * 0.5;
+	// 	tex[1] = acosf(ray->hit_n[1]) / M_PI;
+	// 	pattern = L_N((fmodf(tex[0] * 5, 1) > 0.5) ^ (fmodf(tex[1] * 5, 1) > 0.5), 0);
+	// 	// pattern = 0;
+	// 	// printf("obj type 1 pattern %f hit_n %f,%f,%f \n", pattern, ray->hit_n[0], ray->hit_n[1], ray->hit_n[2]);
 
-	}
+	// }
 	li = (t_vector){li[0] * pattern + AMBILI, li[1] * pattern + AMBILI, li[2] * pattern + AMBILI};
 	return (li);
 }

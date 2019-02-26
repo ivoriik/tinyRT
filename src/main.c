@@ -22,11 +22,48 @@ void	configuration(void)
 	write(1, "-------------------------------------\n", 38);
 }
 
+int		load_tex(t_sdl *sdl, SDL_Surface **tex, char *path)
+{
+	SDL_Surface *src;
+	// SDL_Surface *surf;
+
+	src = IMG_Load(path);
+	if(!src) 
+	{
+   		printf("IMG_Load: %s\n", IMG_GetError());
+   		return (-1);
+   	}
+   	*tex = SDL_ConvertSurface(src, sdl->format, 0);
+   	// tex = SDL_CreateTextureFromSurface(sdl->renderer, surf);
+   	// if (!tex) 
+   	// {
+    // 	fprintf(stderr, "CreateTextureFromSurface failed: %s\n", SDL_GetError());
+    // 	return (-1);
+    // }
+    SDL_FreeSurface(src);
+    // SDL_FreeSurface(surf);
+    printf("TEXTURE loading SUCCESSFULLY\n");
+    return (0);
+}
+
 int		init_env(t_env *env, t_scene *scene, t_obj **obj_pix, t_sdl *sdl)
 {
+	t_obj *tmp;
+
 	env->scene = scene;
 	env->light = scene->light;
 	env->obj = scene->obj;
+	tmp = env->obj;
+	while (tmp)
+	{
+		if (tmp->type == 1 && !tmp->refract && !tmp->reflect) // 
+			if (load_tex(sdl, &tmp->texture, SUN_PATH))
+				return (-1);
+		if (tmp->type == 2 && !tmp->refract && !tmp->reflect) // 
+			if (load_tex(sdl, &tmp->texture, SUN_PATH))
+				return (-1);
+		tmp = tmp->next;
+	}
 	env->asp_rat = (double)SCR_WID / (double)SCR_HEI;
 	env->pix_obj = obj_pix;
 	env->sdl = sdl;

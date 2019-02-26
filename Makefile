@@ -34,7 +34,8 @@ SRC =	main.c\
 		events.c\
 		hook.c\
 		key.c\
-		features.c
+		features.c\
+		mapping.c
 
 # directories
 SRC_DIR	=	./src/
@@ -61,6 +62,8 @@ LIB_L	=	-L $(LIB_D) -lft
 
 #LINUX SDL
 # -lSDL2 -pthread
+SDL_LNK		= -lSDL2
+SDL_IMG_LNK = -lSDL2_image
 
 #rules
 all: obj $(FT_LIB) $(NAME) 
@@ -78,7 +81,7 @@ $(FT_LIB):
 	make -C $(LIB_D)
 
 $(NAME) : $(OBJS)
-	$(CC) $(OBJS) -Wpsabi $(SDL_LNK) $(SDL_IMG_LNK) -lSDL2 -pthread  $(LIB_L)  -lm -o $(NAME)
+	$(CC) $(OBJS) -Wpsabi $(SDL_LNK) $(SDL_IMG_LNK) -pthread  $(LIB_L)  -lm -o $(NAME)
 
 clean:
 	rm -rf $(OBJ_DIR)

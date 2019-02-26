@@ -1,5 +1,5 @@
 camera {
-	pos(0,0,100)
+	pos(0,0,5)
 	dir(0,0,-1)
 }
 light {
@@ -14,19 +14,19 @@ light {
 }
 
 cylinder {
-	pos(0,-15,-30)
-	rot(0,1,0)
-	size(30)
+	pos(-50,10,-20)
+	rot(0,-1,0)
+	size(10)
 	col(200,170,200)
 	reflect(0)
-	refract(150)
+	refract(0)
 }
 
-
-sphere {
-	pos(0,0,-30)
-	size(10)
-	col(0,255,50)
+cylinder {
+	pos(-50,40,-60)
+	rot(0,-1,0)
+	size(5)
+	col(250,250,250)
 	reflect(0)
 	refract(0)
 }

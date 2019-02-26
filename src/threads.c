@@ -21,6 +21,8 @@ void	*thread_funct(void *ptr)
 	t_vector		rgb;
 	t_ray			ray;
 
+	t_color		tex_col;
+
 	th = (t_thread *)ptr;
 	j = th->s_pix - 1;
 	while (++j < th->e_pix)
@@ -31,6 +33,8 @@ void	*thread_funct(void *ptr)
 			ray.dir = ray_generate(th->env, i, j);
 			ray.ori = th->env->scene->r_ori;
 			rgb = cast_ray(&ray, th->env, j * SCR_WID + i, 0);
+
+			// tex_col.col = (Uint32)obj->texture->pixels + yp * obj->texture->pitch + xp;
 			color = get_rgb(th->env->sdl, rgb[0], rgb[1], rgb[2]);
 			img_pixel_put(th->env, i, j, color);
 		}

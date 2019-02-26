@@ -17,7 +17,7 @@ cylinder {
 	rot(0,-1,0)
 	size(10)
 	col(200,170,200)
-	reflect(0)
+	reflect(1)
 	refract(0)
 }
 
@@ -45,7 +45,7 @@ sphere {
 sphere {
 	pos(10,-20,-80)
 	size(15)
-	col(200,170,200)
+	col(00,00,00)
 	reflect(00)
 	refract(0)
 }
@@ -59,7 +59,7 @@ sphere {
 sphere {
 	pos(-5,70,-75)
 	size(10)
-	col(200,170,200)
+	col(0,170,200)
 	reflect(00)
 	refract(0)
 }

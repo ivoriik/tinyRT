@@ -87,6 +87,7 @@ int		set_obj1(t_scene *scene, char **prop, int type)
 		printf("REFRACTIVE %d n %f\n", obj->type, obj->refract);
 	}
 	obj->intersect = intersect[type];
+	obj->get_mapping = type ? spher_mapping : rect_mapping;
 	return (1);
 }
 
@@ -121,5 +122,6 @@ int		set_obj2(t_scene *scene, char **prop, int type)
 		printf("REFRACTIVE %d n %f\n", obj->type, (double)obj->refract);
 	}
 	obj->intersect = intersect[type];
+	obj->get_mapping = type == 4 ? cone_mapping : cylin_mapping;
 	return (1);
 }

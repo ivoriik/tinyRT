@@ -43,5 +43,5 @@ sphere {
 	size(10)
 	col(0,255,50)
 	reflect(0)
-	refract(0)
+	refract(10)
 }

@@ -40,9 +40,17 @@
 # define BG_G		155
 # define BG_B		205
 
+/*
+** TEXTURES
+*/
+# define SUN_PATH	"./textures/sun.jpg"
+# define MARS_PATH	"./textures/mars.jpg"
+# define MOON_PATH	"./textures/moon.jpg"
+
 # define MAX_REFR	4.05
 # include <stdio.h>
 # include <pthread.h>
+# include <stdint.h>
 # include <math.h>
 # include "libft.h"
 // # include "mlx.h"
@@ -60,6 +68,12 @@
 
 typedef	double		t_matrix[4][4];
 typedef double		t_vector __attribute__((vector_size(sizeof(double)*4)));
+
+typedef union		s_color
+{
+	Uint8			rgba[4];
+	Uint32			col;
+}					t_color;
 
 typedef struct		s_obj
 {
@@ -82,6 +96,13 @@ typedef struct		s_obj
 	double			min_thcos;
 	double			max_phi;
 	double			min_phi;
+	t_vector		(*get_mapping)();
+
+	// SDL_Texture		*texture;
+	SDL_Surface		*texture;
+	int 			tex_wid;
+	int 			tex_hei;
+	int 			tex_pitch;
 
 }					t_obj;
 
@@ -205,6 +226,14 @@ t_vector			get_light(t_env *env, t_ray *ray, t_obj *obj, \
 t_vector			get_diff(t_light *light, t_ray *ray, t_vector l_dir);
 int					trace_shad(t_vector l_dir, t_ray *ray, t_obj *objs, \
 	double dis);
+/*
+** MAPPING
+*/
+t_vector	spher_mapping(t_obj *obj, t_vector hit);
+t_vector	rect_mapping(t_obj *obj, t_vector hit);
+t_vector	cylin_mapping(t_obj *obj, t_vector hit);
+t_vector	cone_mapping(t_obj *obj, t_vector hit);
+
 /*
 ** GRAPH_TRANSFORMATION LIBRARY
 */

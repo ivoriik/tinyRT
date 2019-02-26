@@ -124,8 +124,11 @@ int			cy_intersect(t_vector dir, t_vector orig, t_obj obj, double *t)
 			phi += 2.0f * M_PI;
 			// IN_RANGE(dot_product(hit - orig, obj.tr_rot), 0, 50))
 		if ((phi >= obj.min_phi && phi <= obj.max_phi) && \
-			IN_RANGE(dot_product(obj.tr_rot, hit), 0, 50))
+			IN_RANGE(dot_product(obj.tr_rot, hit), 0, 100))
+			{
+			// printf("projection %f\n", dot_product(obj.tr_rot, hit));
 			return (*t = t1t2[0]);
+			}
 	}
 	if (t1t2[1] > T_COEF)
 	{
@@ -135,8 +138,11 @@ int			cy_intersect(t_vector dir, t_vector orig, t_obj obj, double *t)
 			phi += 2.0f * M_PI;
 			// IN_RANGE(dot_product(hit - orig, obj.tr_rot), 0, 50))
 		if ((phi >= obj.min_phi && phi <= obj.max_phi) && \
-			IN_RANGE(dot_product(obj.tr_rot, hit), 0, 50))
+			IN_RANGE(dot_product(obj.tr_rot, hit), 0, 100))
+			{
+			// printf("projection %f\n", dot_product(obj.tr_rot, hit));
 			return (*t = t1t2[1]);
+			}
 	}
 	return (0);
 }
